@@ -2,37 +2,52 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sistema de Gestión Documental</title>
+<title>Intercional Documents | Gestión Documental</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
     font-family: system-ui, Arial, sans-serif;
-    background:#eef1f4;
+    background:#f0f2f5;
     margin:0;
     padding:20px;
 }
+.header{
+    background:#0b3c5d;
+    color:white;
+    padding:15px 20px;
+    border-radius:8px 8px 0 0;
+}
+.header h1{
+    margin:0;
+    font-size:22px;
+}
+.header p{
+    margin:4px 0 0;
+    font-size:13px;
+    opacity:.9;
+}
 .container{
-    max-width:600px;
+    max-width:700px;
     margin:auto;
     background:white;
     border-radius:8px;
-    padding:20px;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
+    box-shadow:0 6px 15px rgba(0,0,0,.1);
+    overflow:hidden;
 }
-h1{
-    margin-top:0;
-    font-size:20px;
+.content{
+    padding:20px;
 }
 input{
     width:100%;
-    padding:10px;
+    padding:12px;
     font-size:15px;
     border:1px solid #ccc;
-    border-radius:5px;
+    border-radius:6px;
 }
 .file{
     margin-top:15px;
-    padding:12px;
+    padding:14px;
     border:1px solid #ddd;
     border-radius:6px;
     display:flex;
@@ -40,7 +55,7 @@ input{
     cursor:pointer;
 }
 .file:hover{
-    background:#f5f7fa;
+    background:#f7f9fb;
 }
 .file span{
     margin-left:10px;
@@ -48,13 +63,13 @@ input{
 .loading{
     display:none;
     text-align:center;
-    padding:40px 0;
+    padding:50px 20px;
 }
 .circle{
-    width:60px;
-    height:60px;
+    width:65px;
+    height:65px;
     border:6px solid #ddd;
-    border-top:6px solid #1a73e8;
+    border-top:6px solid #0b3c5d;
     border-radius:50%;
     animation:spin 1s linear infinite;
     margin:auto;
@@ -65,25 +80,31 @@ input{
     height:8px;
     border-radius:4px;
     overflow:hidden;
-    margin-top:20px;
+    margin-top:25px;
 }
 .bar{
     width:0%;
     height:100%;
-    background:#1a73e8;
+    background:#0b3c5d;
 }
 .status{
-    margin-top:15px;
+    margin-top:18px;
     font-size:14px;
     color:#555;
 }
 .error{
     display:none;
-    background:#fdeaea;
-    border-left:4px solid #d93025;
+    margin:20px;
+    background:#fdecec;
+    border-left:5px solid #c62828;
+    padding:18px;
+    border-radius:6px;
+}
+.footer{
+    text-align:center;
+    font-size:12px;
+    color:#777;
     padding:15px;
-    margin-top:20px;
-    border-radius:5px;
 }
 @keyframes spin{
     0%{transform:rotate(0)}
@@ -92,48 +113,66 @@ input{
 .hidden{display:none;}
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<div id="buscador">
-    <h1>Gestión Documental</h1>
-    <input type="text" placeholder="Buscar por nombre, fecha o código...">
-    <div class="file" onclick="abrirArchivo()">
-        📄 <span>Informe_Financiero_Q3_2025.pdf</span>
+    <div class="header">
+        <h1>Intercional Documents</h1>
+        <p>Sistema corporativo de gestión y acceso documental</p>
     </div>
-</div>
 
-<div class="loading" id="loading">
-    <div class="circle"></div>
-    <div class="progress">
-        <div class="bar" id="bar"></div>
+    <div class="content" id="buscador">
+        <input type="text" placeholder="Buscar por nombre, código o área...">
+
+        <div class="file" onclick="abrirDocumento()">
+            📄 <span>Contrato_Internacional_ID-45821.pdf</span>
+        </div>
     </div>
-    <div class="status" id="status">Inicializando descarga...</div>
-</div>
 
-<div class="error" id="error">
-    <strong>Error de acceso al documento</strong><br><br>
-    No se pudo completar la operación debido a un problema de integridad del archivo
-    o una interrupción del servidor.<br><br>
-    Código de error: <b>DOC-504</b><br>
-    Intente nuevamente más tarde.
-</div>
+    <div class="loading" id="loading">
+        <div class="circle"></div>
+
+        <div class="progress">
+            <div class="bar" id="bar"></div>
+        </div>
+
+        <div class="status" id="status">
+            Conectando con Intercional Secure Server...
+        </div>
+    </div>
+
+    <div class="error" id="error">
+        <strong>Acceso denegado al documento</strong><br><br>
+        El archivo solicitado no pudo ser procesado debido a una
+        inconsistencia en la verificación de integridad o una
+        interrupción del servidor central.<br><br>
+
+        <b>Código de error:</b> INTDOC-702<br>
+        <b>Servidor:</b> IDS-NODE-03<br><br>
+
+        Contacte al administrador del sistema o intente nuevamente más tarde.
+    </div>
+
+    <div class="footer">
+        © 2026 Intercional Documents · Todos los derechos reservados
+    </div>
 
 </div>
 
 <script>
 let progreso = 0;
 let mensajes = [
-    "Inicializando descarga...",
-    "Verificando permisos...",
-    "Conectando con el servidor...",
-    "Descargando metadatos...",
-    "Validando integridad del archivo...",
-    "Procesando solicitud..."
+    "Conectando con Intercional Secure Server...",
+    "Autenticando credenciales...",
+    "Verificando permisos de acceso...",
+    "Descargando metadatos del archivo...",
+    "Validando integridad del documento...",
+    "Procesando solicitud corporativa..."
 ];
 
-function abrirArchivo(){
+function abrirDocumento(){
     document.getElementById("buscador").classList.add("hidden");
     document.getElementById("loading").style.display = "block";
 
@@ -142,8 +181,8 @@ function abrirArchivo(){
     let i = 0;
 
     let intervalo = setInterval(() => {
-        if(progreso < 95){
-            progreso += 1;
+        if(progreso < 96){
+            progreso++;
             barra.style.width = progreso + "%";
         }
         status.textContent = mensajes[i % mensajes.length];
@@ -161,3 +200,4 @@ function abrirArchivo(){
 
 </body>
 </html>
+
