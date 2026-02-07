@@ -2,113 +2,103 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Intercional Documents - Corporate Document System</title>
+<title>Intercional Documents | Document Access Portal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ICONO DE LA PAGINA -->
-<link rel="icon" type="image/png" href="icon.png">
 
 <style>
 body{
-    font-family: "Segoe UI", system-ui, Arial, sans-serif;
-    background:#e9edf2;
+    font-family: system-ui, "Segoe UI", Arial, sans-serif;
+    background:#eef1f4;
     margin:0;
     padding:20px;
 }
+
+/* CONTENEDOR */
 .container{
-    max-width:800px;
+    max-width:820px;
     margin:auto;
-    background:white;
+    background:#ffffff;
     border-radius:10px;
-    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    box-shadow:0 8px 22px rgba(0,0,0,.12);
     overflow:hidden;
 }
 
 /* HEADER */
 .header{
-    background:#0a2f4f;
-    color:white;
-    padding:15px 20px;
-}
-.logo-area{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-.logo-area img{
-    width:55px;
-    height:55px;
-    object-fit:contain;
-    background:white;
-    padding:6px;
-    border-radius:8px;
+    background:#1f2933;
+    color:#ffffff;
+    padding:18px 22px;
 }
 .header h1{
     margin:0;
     font-size:22px;
+    font-weight:600;
 }
 .header p{
-    margin:2px 0 0;
+    margin:4px 0 0;
     font-size:13px;
     opacity:.85;
 }
 
-/* CONTENT */
+/* CONTENIDO */
 .content{
-    padding:20px;
+    padding:22px;
 }
 input{
     width:100%;
     padding:12px;
     font-size:15px;
-    border:1px solid #ccc;
+    border:1px solid #cfd6dd;
     border-radius:6px;
 }
+
+/* ARCHIVO */
 .file{
-    margin-top:15px;
-    padding:14px;
-    border:1px solid #ddd;
+    margin-top:16px;
+    padding:15px;
+    border:1px solid #d9dee3;
     border-radius:6px;
-    display:flex;
-    align-items:center;
     cursor:pointer;
     transition:.2s;
 }
 .file:hover{
-    background:#f5f8fb;
+    background:#f6f8fa;
 }
-.file span{
-    margin-left:10px;
+.file-title{
     font-weight:500;
 }
+.file-meta{
+    font-size:12px;
+    color:#666;
+    margin-top:4px;
+}
 
-/* LOADING */
+/* CARGA */
 .loading{
     display:none;
+    padding:50px 25px;
     text-align:center;
-    padding:50px 20px;
 }
-.circle{
+.spinner{
     width:70px;
     height:70px;
-    border:7px solid #ddd;
-    border-top:7px solid #0a2f4f;
+    border:7px solid #d6dbe0;
+    border-top:7px solid #1f2933;
     border-radius:50%;
     animation:spin 1s linear infinite;
     margin:auto;
 }
 .progress{
-    width:100%;
-    background:#ddd;
+    margin-top:26px;
+    background:#d6dbe0;
     height:10px;
     border-radius:5px;
     overflow:hidden;
-    margin-top:25px;
 }
 .bar{
     width:0%;
     height:100%;
-    background:#0a2f4f;
+    background:#1f2933;
 }
 .status{
     margin-top:18px;
@@ -119,10 +109,10 @@ input{
 /* ERROR */
 .error{
     display:none;
-    margin:20px;
-    background:#fff1f1;
+    margin:22px;
+    padding:20px;
+    background:#fff3f3;
     border-left:5px solid #c62828;
-    padding:18px;
     border-radius:6px;
     font-size:15px;
 }
@@ -132,15 +122,16 @@ input{
     text-align:center;
     font-size:12px;
     color:#777;
-    padding:12px;
+    padding:14px;
     border-top:1px solid #eee;
 }
 
+.hidden{display:none;}
+
 @keyframes spin{
-    0%{transform:rotate(0)}
+    0%{transform:rotate(0deg)}
     100%{transform:rotate(360deg)}
 }
-.hidden{display:none;}
 </style>
 </head>
 
@@ -150,93 +141,92 @@ input{
 
     <!-- HEADER -->
     <div class="header">
-        <div class="logo-area">
-            <img src="logo.png" alt="Intercional Documents Logo">
-            <div>
-                <h1>Intercional Documents</h1>
-                <p>Private Corporate Document Management Solutions</p>
-            </div>
-        </div>
+        <h1>Intercional Documents</h1>
+        <p>Private corporate document access and validation platform</p>
     </div>
 
     <!-- BUSCADOR -->
-    <div class="content" id="buscador">
-        <input type="text" placeholder="Search by document name, code or department...">
+    <div class="content" id="search">
+        <input type="text" placeholder="Search by document name, reference or department">
 
-        <div class="file" onclick="abrirDocumento()">
-            📄 <span>Corporate_Agreement_INT-88421.pdf</span>
+        <div class="file" onclick="openDocument()">
+            <div class="file-title">International_Service_Agreement_2025.pdf</div>
+            <div class="file-meta">
+                Reference: INT-DS-88214 · Department: Legal Affairs · Status: Archived
+            </div>
         </div>
     </div>
 
     <!-- CARGA -->
     <div class="loading" id="loading">
-        <div class="circle"></div>
+        <div class="spinner"></div>
 
         <div class="progress">
             <div class="bar" id="bar"></div>
         </div>
 
         <div class="status" id="status">
-            Connecting to Intercional Secure Server...
+            Establishing secure session...
         </div>
     </div>
 
     <!-- ERROR -->
     <div class="error" id="error">
-        <strong>Document Access Failed</strong><br><br>
-        The requested file could not be processed due to a data integrity mismatch 
-        or a server interruption in the corporate node.<br><br>
+        <strong>Document processing error</strong><br><br>
+        The requested file could not be completed due to a validation failure
+        during integrity verification on the enterprise server.<br><br>
 
-        <b>Error Code:</b> INTDOC-904<br>
-        <b>Node:</b> IDC-NODE-EU3<br><br>
+        <b>Error code:</b> IDC-VAL-901<br>
+        <b>Server node:</b> CORE-EU-04<br>
+        <b>Timestamp:</b> <span id="time"></span><br><br>
 
-        Please contact system administration or try again later.
+        Please contact your system administrator or attempt access at a later time.
     </div>
 
     <!-- FOOTER -->
     <div class="footer">
-        © 2026 Intercional Documents Ltd. · All rights reserved
+        © 2026 Intercional Documents · Confidential internal platform
     </div>
 
 </div>
 
 <script>
-let progreso = 0;
-let mensajes = [
-    "Connecting to Intercional Secure Server...",
-    "Authenticating corporate credentials...",
-    "Checking access permissions...",
-    "Downloading file metadata...",
-    "Validating document integrity...",
+let progress = 0;
+let messages = [
+    "Establishing secure session...",
+    "Authenticating user permissions...",
+    "Requesting document metadata...",
+    "Verifying access policies...",
+    "Validating file integrity...",
     "Processing enterprise request..."
 ];
 
-function abrirDocumento(){
-    document.getElementById("buscador").classList.add("hidden");
+function openDocument(){
+    document.getElementById("search").classList.add("hidden");
     document.getElementById("loading").style.display = "block";
 
-    let barra = document.getElementById("bar");
+    let bar = document.getElementById("bar");
     let status = document.getElementById("status");
     let i = 0;
 
-    let intervalo = setInterval(() => {
-        if(progreso < 97){
-            progreso++;
-            barra.style.width = progreso + "%";
+    let interval = setInterval(() => {
+        if(progress < 96){
+            progress++;
+            bar.style.width = progress + "%";
         }
-        status.textContent = mensajes[i % mensajes.length];
+        status.textContent = messages[i % messages.length];
         i++;
     }, 1200);
 
     // 2 minutos reales
     setTimeout(() => {
-        clearInterval(intervalo);
+        clearInterval(interval);
         document.getElementById("loading").style.display = "none";
         document.getElementById("error").style.display = "block";
+        document.getElementById("time").textContent = new Date().toLocaleString();
     }, 120000);
 }
 </script>
 
 </body>
 </html>
-
