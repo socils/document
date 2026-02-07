@@ -2,39 +2,58 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Intercional Documents | Gestión Documental</title>
+<title>Intercional Documents - Corporate Document System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ICONO DE LA PAGINA -->
+<link rel="icon" type="image/png" href="icon.png">
 
 <style>
 body{
-    font-family: system-ui, Arial, sans-serif;
-    background:#f0f2f5;
+    font-family: "Segoe UI", system-ui, Arial, sans-serif;
+    background:#e9edf2;
     margin:0;
     padding:20px;
 }
+.container{
+    max-width:800px;
+    margin:auto;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    overflow:hidden;
+}
+
+/* HEADER */
 .header{
-    background:#0b3c5d;
+    background:#0a2f4f;
     color:white;
     padding:15px 20px;
-    border-radius:8px 8px 0 0;
+}
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.logo-area img{
+    width:55px;
+    height:55px;
+    object-fit:contain;
+    background:white;
+    padding:6px;
+    border-radius:8px;
 }
 .header h1{
     margin:0;
     font-size:22px;
 }
 .header p{
-    margin:4px 0 0;
+    margin:2px 0 0;
     font-size:13px;
-    opacity:.9;
+    opacity:.85;
 }
-.container{
-    max-width:700px;
-    margin:auto;
-    background:white;
-    border-radius:8px;
-    box-shadow:0 6px 15px rgba(0,0,0,.1);
-    overflow:hidden;
-}
+
+/* CONTENT */
 .content{
     padding:20px;
 }
@@ -53,23 +72,27 @@ input{
     display:flex;
     align-items:center;
     cursor:pointer;
+    transition:.2s;
 }
 .file:hover{
-    background:#f7f9fb;
+    background:#f5f8fb;
 }
 .file span{
     margin-left:10px;
+    font-weight:500;
 }
+
+/* LOADING */
 .loading{
     display:none;
     text-align:center;
     padding:50px 20px;
 }
 .circle{
-    width:65px;
-    height:65px;
-    border:6px solid #ddd;
-    border-top:6px solid #0b3c5d;
+    width:70px;
+    height:70px;
+    border:7px solid #ddd;
+    border-top:7px solid #0a2f4f;
     border-radius:50%;
     animation:spin 1s linear infinite;
     margin:auto;
@@ -77,35 +100,42 @@ input{
 .progress{
     width:100%;
     background:#ddd;
-    height:8px;
-    border-radius:4px;
+    height:10px;
+    border-radius:5px;
     overflow:hidden;
     margin-top:25px;
 }
 .bar{
     width:0%;
     height:100%;
-    background:#0b3c5d;
+    background:#0a2f4f;
 }
 .status{
     margin-top:18px;
     font-size:14px;
     color:#555;
 }
+
+/* ERROR */
 .error{
     display:none;
     margin:20px;
-    background:#fdecec;
+    background:#fff1f1;
     border-left:5px solid #c62828;
     padding:18px;
     border-radius:6px;
+    font-size:15px;
 }
+
+/* FOOTER */
 .footer{
     text-align:center;
     font-size:12px;
     color:#777;
-    padding:15px;
+    padding:12px;
+    border-top:1px solid #eee;
 }
+
 @keyframes spin{
     0%{transform:rotate(0)}
     100%{transform:rotate(360deg)}
@@ -118,19 +148,27 @@ input{
 
 <div class="container">
 
+    <!-- HEADER -->
     <div class="header">
-        <h1>Intercional Documents</h1>
-        <p>Sistema corporativo de gestión y acceso documental</p>
-    </div>
-
-    <div class="content" id="buscador">
-        <input type="text" placeholder="Buscar por nombre, código o área...">
-
-        <div class="file" onclick="abrirDocumento()">
-            📄 <span>Contrato_Internacional_ID-45821.pdf</span>
+        <div class="logo-area">
+            <img src="logo.png" alt="Intercional Documents Logo">
+            <div>
+                <h1>Intercional Documents</h1>
+                <p>Private Corporate Document Management Solutions</p>
+            </div>
         </div>
     </div>
 
+    <!-- BUSCADOR -->
+    <div class="content" id="buscador">
+        <input type="text" placeholder="Search by document name, code or department...">
+
+        <div class="file" onclick="abrirDocumento()">
+            📄 <span>Corporate_Agreement_INT-88421.pdf</span>
+        </div>
+    </div>
+
+    <!-- CARGA -->
     <div class="loading" id="loading">
         <div class="circle"></div>
 
@@ -139,24 +177,25 @@ input{
         </div>
 
         <div class="status" id="status">
-            Conectando con Intercional Secure Server...
+            Connecting to Intercional Secure Server...
         </div>
     </div>
 
+    <!-- ERROR -->
     <div class="error" id="error">
-        <strong>Acceso denegado al documento</strong><br><br>
-        El archivo solicitado no pudo ser procesado debido a una
-        inconsistencia en la verificación de integridad o una
-        interrupción del servidor central.<br><br>
+        <strong>Document Access Failed</strong><br><br>
+        The requested file could not be processed due to a data integrity mismatch 
+        or a server interruption in the corporate node.<br><br>
 
-        <b>Código de error:</b> INTDOC-702<br>
-        <b>Servidor:</b> IDS-NODE-03<br><br>
+        <b>Error Code:</b> INTDOC-904<br>
+        <b>Node:</b> IDC-NODE-EU3<br><br>
 
-        Contacte al administrador del sistema o intente nuevamente más tarde.
+        Please contact system administration or try again later.
     </div>
 
+    <!-- FOOTER -->
     <div class="footer">
-        © 2026 Intercional Documents · Todos los derechos reservados
+        © 2026 Intercional Documents Ltd. · All rights reserved
     </div>
 
 </div>
@@ -164,12 +203,12 @@ input{
 <script>
 let progreso = 0;
 let mensajes = [
-    "Conectando con Intercional Secure Server...",
-    "Autenticando credenciales...",
-    "Verificando permisos de acceso...",
-    "Descargando metadatos del archivo...",
-    "Validando integridad del documento...",
-    "Procesando solicitud corporativa..."
+    "Connecting to Intercional Secure Server...",
+    "Authenticating corporate credentials...",
+    "Checking access permissions...",
+    "Downloading file metadata...",
+    "Validating document integrity...",
+    "Processing enterprise request..."
 ];
 
 function abrirDocumento(){
@@ -181,7 +220,7 @@ function abrirDocumento(){
     let i = 0;
 
     let intervalo = setInterval(() => {
-        if(progreso < 96){
+        if(progreso < 97){
             progreso++;
             barra.style.width = progreso + "%";
         }
@@ -189,7 +228,7 @@ function abrirDocumento(){
         i++;
     }, 1200);
 
-    // 2 minutos exactos
+    // 2 minutos reales
     setTimeout(() => {
         clearInterval(intervalo);
         document.getElementById("loading").style.display = "none";
