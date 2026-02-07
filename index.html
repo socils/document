@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Gestión Documental</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+    font-family: system-ui, Arial, sans-serif;
+    background:#eef1f4;
+    margin:0;
+    padding:20px;
+}
+.container{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    border-radius:8px;
+    padding:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+h1{
+    margin-top:0;
+    font-size:20px;
+}
+input{
+    width:100%;
+    padding:10px;
+    font-size:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+.file{
+    margin-top:15px;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    cursor:pointer;
+}
+.file:hover{
+    background:#f5f7fa;
+}
+.file span{
+    margin-left:10px;
+}
+.loading{
+    display:none;
+    text-align:center;
+    padding:40px 0;
+}
+.circle{
+    width:60px;
+    height:60px;
+    border:6px solid #ddd;
+    border-top:6px solid #1a73e8;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:auto;
+}
+.progress{
+    width:100%;
+    background:#ddd;
+    height:8px;
+    border-radius:4px;
+    overflow:hidden;
+    margin-top:20px;
+}
+.bar{
+    width:0%;
+    height:100%;
+    background:#1a73e8;
+}
+.status{
+    margin-top:15px;
+    font-size:14px;
+    color:#555;
+}
+.error{
+    display:none;
+    background:#fdeaea;
+    border-left:4px solid #d93025;
+    padding:15px;
+    margin-top:20px;
+    border-radius:5px;
+}
+@keyframes spin{
+    0%{transform:rotate(0)}
+    100%{transform:rotate(360deg)}
+}
+.hidden{display:none;}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div id="buscador">
+    <h1>Gestión Documental</h1>
+    <input type="text" placeholder="Buscar por nombre, fecha o código...">
+    <div class="file" onclick="abrirArchivo()">
+        📄 <span>Informe_Financiero_Q3_2025.pdf</span>
+    </div>
+</div>
+
+<div class="loading" id="loading">
+    <div class="circle"></div>
+    <div class="progress">
+        <div class="bar" id="bar"></div>
+    </div>
+    <div class="status" id="status">Inicializando descarga...</div>
+</div>
+
+<div class="error" id="error">
+    <strong>Error de acceso al documento</strong><br><br>
+    No se pudo completar la operación debido a un problema de integridad del archivo
+    o una interrupción del servidor.<br><br>
+    Código de error: <b>DOC-504</b><br>
+    Intente nuevamente más tarde.
+</div>
+
+</div>
+
+<script>
+let progreso = 0;
+let mensajes = [
+    "Inicializando descarga...",
+    "Verificando permisos...",
+    "Conectando con el servidor...",
+    "Descargando metadatos...",
+    "Validando integridad del archivo...",
+    "Procesando solicitud..."
+];
+
+function abrirArchivo(){
+    document.getElementById("buscador").classList.add("hidden");
+    document.getElementById("loading").style.display = "block";
+
+    let barra = document.getElementById("bar");
+    let status = document.getElementById("status");
+    let i = 0;
+
+    let intervalo = setInterval(() => {
+        if(progreso < 95){
+            progreso += 1;
+            barra.style.width = progreso + "%";
+        }
+        status.textContent = mensajes[i % mensajes.length];
+        i++;
+    }, 1200);
+
+    // 2 minutos exactos
+    setTimeout(() => {
+        clearInterval(intervalo);
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("error").style.display = "block";
+    }, 120000);
+}
+</script>
+
+</body>
+</html>
