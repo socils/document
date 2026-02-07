@@ -252,23 +252,31 @@ footer {
 
 <script>
 function login() {
-    if (
-        user.value === "alonso2026-id-110162" &&
-        pass.value === "alonso7"
-    ) {
-        login.style.display = "none";
-        system.style.display = "block";
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
+
+    const loginBox = document.getElementById("login");
+    const systemBox = document.getElementById("system");
+    const errorBox = document.getElementById("loginError");
+
+    if (u === "alonso2026-id-110162" && p === "alonso7") {
+        loginBox.style.display = "none";
+        systemBox.style.display = "block";
+        errorBox.style.display = "none";
         addHistory("Inicio de sesión exitoso");
     } else {
-        loginError.style.display = "block";
+        errorBox.style.display = "block";
     }
 }
 
 function openDocument() {
-    doc.style.display = "none";
-    loading.style.display = "block";
+    document.getElementById("doc").style.display = "none";
+    document.getElementById("loading").style.display = "block";
 
     let progress = 0;
+    const bar = document.getElementById("bar");
+    const percent = document.getElementById("percent");
+
     const interval = setInterval(() => {
         progress++;
         bar.style.width = progress + "%";
@@ -276,19 +284,21 @@ function openDocument() {
 
         if (progress >= 100) {
             clearInterval(interval);
-            loading.style.display = "none";
-            error.style.display = "block";
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("error").style.display = "block";
             addHistory("Error al abrir documento (IDV-502)");
         }
-    }, 1200); // ≈ 2 minutos
+    }, 1200); // ~2 minutos
 }
 
 function addHistory(text) {
+    const list = document.getElementById("historyList");
     const li = document.createElement("li");
     li.textContent = new Date().toLocaleString() + " — " + text;
-    historyList.prepend(li);
+    list.prepend(li);
 }
 </script>
+
 
 </body>
 </html>
