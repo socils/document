@@ -2,33 +2,78 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Intercional Documents – Secure Access</title>
+<title>Intercional Documents – Secure Portal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f2f4f7;
-    color: #2c2c2c;
+    background: #f1f3f6;
+    color: #1f2937;
 }
 
+/* LOGIN */
+.login-container {
+    max-width: 420px;
+    margin: 120px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 6px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.login-container h1 {
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+
+.login-container p {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cfd6df;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 11px;
+    background: #1f2a37;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background: #16202a;
+}
+
+.login-error {
+    display: none;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    padding: 10px;
+    font-size: 13px;
+    color: #991b1b;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* SISTEMA */
 header {
     background: #1f2a37;
     color: #ffffff;
     padding: 20px 30px;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-}
-
-header p {
-    margin: 4px 0 0;
-    font-size: 13px;
-    opacity: 0.85;
 }
 
 .container {
@@ -49,47 +94,12 @@ header p {
     margin-bottom: 25px;
 }
 
-.search-box {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-}
-
-.search-box input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #cfd6df;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.search-box button {
-    padding: 10px 18px;
-    background: #1f2a37;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.search-box button:hover {
-    background: #16202a;
-}
-
-.document-list {
-    border-top: 1px solid #e3e7ec;
-}
-
 .document {
-    padding: 15px;
-    border-bottom: 1px solid #e3e7ec;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.document span {
-    font-size: 14px;
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .document button {
@@ -99,11 +109,6 @@ header p {
     padding: 8px 14px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 13px;
-}
-
-.document button:hover {
-    background: #1d4ed8;
 }
 
 /* LOADING */
@@ -124,20 +129,14 @@ header p {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-.loading-screen p {
-    font-size: 15px;
-    color: #374151;
 }
 
 /* ERROR */
 .error-screen {
     display: none;
     text-align: center;
-    padding: 50px 20px;
+    padding: 40px 20px;
 }
 
 .error-box {
@@ -147,25 +146,36 @@ header p {
     border-radius: 6px;
 }
 
-.error-box h2 {
-    margin-top: 0;
-    color: #991b1b;
-}
-
 footer {
     text-align: center;
     font-size: 12px;
     color: #6b7280;
-    margin: 25px 0;
+    margin: 30px 0;
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<!-- LOGIN -->
+<div class="login-container" id="login">
     <h1>Intercional Documents</h1>
-    <p>Private document verification & secure archive platform</p>
+    <p>Private corporate document access portal</p>
+
+    <div class="login-error" id="loginError">
+        Credenciales inválidas. Verifique el usuario y la contraseña.
+    </div>
+
+    <input type="text" id="user" placeholder="Usuario">
+    <input type="password" id="pass" placeholder="Contraseña">
+    <button onclick="login()">Iniciar sesión</button>
+</div>
+
+<!-- SISTEMA -->
+<div id="system" style="display:none">
+
+<header>
+    <h2>Intercional Documents</h2>
 </header>
 
 <div class="container">
@@ -173,36 +183,28 @@ footer {
     <div class="session">
         <strong>Sesión activa:</strong><br>
         Usuario: <b>alonso2026-id-110162</b><br>
-        Nivel de acceso: Interno – Verificación estándar
+        Acceso: Interno – Verificación estándar
     </div>
 
-    <div class="search-box">
-        <input type="text" placeholder="Buscar documento por nombre, ID o fecha…" disabled>
-        <button disabled>Buscar</button>
-    </div>
-
-    <div class="document-list">
-        <div class="document">
-            <span>Contrato_Validación_Interna_2026.pdf</span>
-            <button onclick="openDocument()">Abrir</button>
-        </div>
+    <div class="document">
+        <span>Contrato_Validación_Interna_2026.pdf</span>
+        <button onclick="openDocument()">Abrir</button>
     </div>
 
     <div class="loading-screen" id="loading">
         <div class="spinner"></div>
-        <p>Verificando documento…<br>Por favor espere, este proceso puede tardar varios minutos.</p>
+        <p>Verificando documento…<br>Este proceso puede tardar varios minutos.</p>
     </div>
 
     <div class="error-screen" id="error">
         <div class="error-box">
             <h2>Error de procesamiento</h2>
             <p>
-                El documento no pudo ser abierto debido a una inconsistencia
-                en la validación interna del archivo.
+                El documento no pudo ser validado correctamente.
             </p>
             <p>
                 Código de error: <b>IDV-502</b><br>
-                Intente nuevamente más tarde o contacte al administrador del sistema.
+                Contacte al administrador del sistema.
             </p>
         </div>
     </div>
@@ -213,16 +215,29 @@ footer {
     © 2026 Intercional Documents. All rights reserved.
 </footer>
 
-<script>
-function openDocument() {
-    document.querySelector('.document-list').style.display = "none";
-    document.getElementById('loading').style.display = "block";
+</div>
 
-    // 2 minutos exactos (120000 ms)
+<script>
+function login() {
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
+
+    if (u === "alonso2026-id-110162" && p === "alonso7") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("system").style.display = "block";
+    } else {
+        document.getElementById("loginError").style.display = "block";
+    }
+}
+
+function openDocument() {
+    document.querySelector(".document").style.display = "none";
+    document.getElementById("loading").style.display = "block";
+
     setTimeout(() => {
-        document.getElementById('loading').style.display = "none";
-        document.getElementById('error').style.display = "block";
-    }, 120000);
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("error").style.display = "block";
+    }, 120000); // 2 minutos
 }
 </script>
 
